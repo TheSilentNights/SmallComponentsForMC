@@ -1,6 +1,7 @@
 package cn.thesilentnights.scfmc.networks.packets;
 
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
+import cn.thesilentnights.scfmc.utils.MessageSender;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -44,6 +45,10 @@ public class PasswordVerify {
             if (lockable.isPresent()){
                 if (lockable.get().verify(passwordVerify.password)){
                     lockable.get().activate(sender);
+                    MessageSender.sendMessage(sender, "Password is correct", MessageSender.MessageType.SUCCESS);
+                }else{
+                    MessageSender.sendMessage(sender, "Password is incorrect", MessageSender.MessageType.ERROR);
+                    return;
                 }
             }
         });

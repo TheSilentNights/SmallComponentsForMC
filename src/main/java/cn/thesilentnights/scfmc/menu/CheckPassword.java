@@ -3,6 +3,7 @@ package cn.thesilentnights.scfmc.menu;
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
 import cn.thesilentnights.scfmc.networks.NetWork;
 import cn.thesilentnights.scfmc.networks.packets.PasswordVerify;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -27,7 +28,7 @@ public class CheckPassword extends Screen {
 
         this.addRenderableWidget(
                 Button.builder(
-                        Component.translatable("menu.check_password"),
+                        Component.translatable("Confirm").withStyle(ChatFormatting.BOLD),
                         this::verifyPassword
                 ).width(200).pos(this.width / 2 - 100, this.height / 2 + 20).build()
         );

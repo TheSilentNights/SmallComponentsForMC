@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import cn.thesilentnights.scfmc.items.blockentity.LockableChestEntity;
+import cn.thesilentnights.scfmc.utils.MessageSender;
 import cn.thesilentnights.scfmc.utils.RandomGenerator;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -46,6 +47,7 @@ public class Generator implements ICommands {
 
                                 if (serverLevel.getBlockEntity(pos) instanceof LockableChestEntity entity) {
                                     entity.setPassword(String.valueOf(password));
+                                    MessageSender.sendMessage(context, "Password set to " + password, MessageSender.MessageType.SUCCESS);
                                 }
 
                                 return 1;

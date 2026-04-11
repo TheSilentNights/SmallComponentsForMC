@@ -16,7 +16,8 @@ public class BlockRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, Statics.MOD_ID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Statics.MOD_ID);
 
-    public static final RegistryObject<Block> LOCKABLE_CHEST = BLOCKS.register("lockable_chest", () -> new LockableChest(BlockBehaviour.Properties.of()));
+    public static final RegistryObject<Block> LOCKABLE_CHEST = BLOCKS.register("lockable_chest", () -> new LockableChest(LockableChest.genProperties()));
+    
     public static final RegistryObject<BlockEntityType<? extends ChestBlockEntity>> LOCKABLE_CHEST_ENTITY = BLOCK_ENTITIES.register(
             "lockable_chest_entity", () -> BlockEntityType.Builder.of(
                     LockableChestEntity::new,

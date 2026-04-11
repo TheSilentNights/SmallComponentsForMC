@@ -4,6 +4,7 @@ package cn.thesilentnights.scfmc.items.blockentity;
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
 import cn.thesilentnights.scfmc.items.blocks.LockableChest;
 import cn.thesilentnights.scfmc.registry.BlockRegistry;
+import cn.thesilentnights.scfmc.utils.MessageSender.MessageType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;

@@ -1,5 +1,7 @@
 package cn.thesilentnights.scfmc.items.blocks;
 
+import org.checkerframework.checker.units.qual.s;
+
 import cn.thesilentnights.scfmc.items.blockentity.LockableChestEntity;
 import cn.thesilentnights.scfmc.networks.NetWork;
 import cn.thesilentnights.scfmc.networks.packets.OpenScreen;
@@ -14,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.PacketDistributor;
@@ -58,5 +61,9 @@ public class LockableChest extends ChestBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new LockableChestEntity(pPos, pState);
+    }
+
+    public static Properties genProperties() {
+        return BlockBehaviour.Properties.of().noParticlesOnBreak().strength(-1.0F, 12000F).noParticlesOnBreak();
     }
 }
