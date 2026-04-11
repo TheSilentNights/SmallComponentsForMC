@@ -94,6 +94,16 @@ public class CheckPassword extends Screen {
         addRenderableWidget(new RefinedButton(
                 new RefinedButton.Properties(width / 2 + 17, height / 2 + 40, 20, 20, Component.literal("✔")),
                 b -> verifyPassword(b)));
+        addRenderableWidget(new RefinedButton(
+                new RefinedButton.Properties(width / 2 - 30, height / 2 + 75, 60, 20, Component.literal("Clear")),
+                b -> clearPassword()));
+    }
+
+    private void clearPassword() {
+        cursor = 0;
+        for (StringWidget code : codeMap.values()) {
+            code.setMessage(Component.literal("_"));
+        }
     }
 
     private void numberClicked(int number) {
