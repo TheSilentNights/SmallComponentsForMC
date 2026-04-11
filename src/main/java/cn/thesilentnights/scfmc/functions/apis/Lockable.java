@@ -6,4 +6,6 @@ public interface Lockable {
     void activate(Player pPlayer);
 
     boolean verify(String password);
+
+    String getPassword();
 }

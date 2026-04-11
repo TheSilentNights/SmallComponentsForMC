@@ -1,6 +1,6 @@
 package cn.thesilentnights.scfmc.networks;
 
-import cn.thesilentnights.scfmc.networks.packets.OpenScreen;
+import cn.thesilentnights.scfmc.networks.packets.OpenCheckPassword;
 import cn.thesilentnights.scfmc.networks.packets.PasswordVerify;
 import cn.thesilentnights.scfmc.repo.Statics;
 import net.minecraft.resources.ResourceLocation;
@@ -26,10 +26,10 @@ public class NetWork {
         );
         CHANNEL.registerMessage(
                 1,
-                OpenScreen.class,
-                OpenScreen::encode,
-                OpenScreen::decode,
-                OpenScreen::handle
+                OpenCheckPassword.class,
+                OpenCheckPassword::encode,
+                OpenCheckPassword::decode,
+                OpenCheckPassword::handle
         );
 
     }

@@ -4,7 +4,7 @@ import org.checkerframework.checker.units.qual.s;
 
 import cn.thesilentnights.scfmc.items.blockentity.LockableChestEntity;
 import cn.thesilentnights.scfmc.networks.NetWork;
-import cn.thesilentnights.scfmc.networks.packets.OpenScreen;
+import cn.thesilentnights.scfmc.networks.packets.OpenCheckPassword;
 import cn.thesilentnights.scfmc.registry.BlockRegistry;
 import cn.thesilentnights.scfmc.utils.Logging;
 import net.minecraft.core.BlockPos;
@@ -40,7 +40,7 @@ public class LockableChest extends ChestBlock {
             
             NetWork.CHANNEL.send(
                     PacketDistributor.PLAYER.with(()->pLevel.getServer().getPlayerList().getPlayer(pPlayer.getUUID())),
-                    new OpenScreen(OpenScreen.ScreenType.LOCKABLE_CHEST_PASSWORD, lockableChestEntity.getBlockPos())
+                    new OpenCheckPassword(lockableChestEntity.getBlockPos(), lockableChestEntity.getPassword().length())
             );
         }
         return InteractionResult.SUCCESS;

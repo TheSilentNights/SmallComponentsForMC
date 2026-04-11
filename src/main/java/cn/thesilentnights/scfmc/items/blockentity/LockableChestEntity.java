@@ -54,7 +54,6 @@ public class LockableChestEntity extends ChestBlockEntity implements Lockable {
         super.load(pTag);
         
         this.password = pTag.getString("password");
-
     }
 
     
