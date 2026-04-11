@@ -1,8 +1,11 @@
 package cn.thesilentnights.scfmc;
 
+import cn.thesilentnights.scfmc.command.ICommands;
 import cn.thesilentnights.scfmc.networks.NetWork;
 import cn.thesilentnights.scfmc.registry.BlockRegistry;
+import cn.thesilentnights.scfmc.registry.CommandRegistry;
 import cn.thesilentnights.scfmc.repo.Statics;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -11,6 +14,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class Scfmc {
     public Scfmc(FMLJavaModLoadingContext modLoadingContext) {
         BlockRegistry.init(modLoadingContext.getModEventBus());
+        new CommandRegistry(MinecraftForge.EVENT_BUS);
         NetWork.init();
     }
+
+
 }

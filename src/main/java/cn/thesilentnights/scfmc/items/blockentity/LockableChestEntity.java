@@ -7,7 +7,6 @@ import cn.thesilentnights.scfmc.registry.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +28,7 @@ public class LockableChestEntity extends ChestBlockEntity implements Lockable {
 
     public void setPassword(@NotNull String pPassword){
         password = pPassword;
+        setChanged();
     }
 
     @Override
@@ -52,7 +52,8 @@ public class LockableChestEntity extends ChestBlockEntity implements Lockable {
     public void load(@NotNull CompoundTag pTag) {
         super.load(pTag);
         
-        password = pTag.getString("password");
+        this.password = pTag.getString("password");
+
     }
 
     
