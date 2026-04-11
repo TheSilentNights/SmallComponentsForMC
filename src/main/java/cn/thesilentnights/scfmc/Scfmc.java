@@ -9,8 +9,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Statics.MOD_ID)
 public class Scfmc {
-    public Scfmc() {
-        BlockRegistry.init(FMLJavaModLoadingContext.get().getModEventBus());
+    public Scfmc(FMLJavaModLoadingContext modLoadingContext) {
+        BlockRegistry.init(modLoadingContext.getModEventBus());
         NetWork.init();
     }
 }

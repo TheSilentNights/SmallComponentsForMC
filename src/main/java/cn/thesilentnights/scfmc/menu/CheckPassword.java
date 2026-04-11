@@ -3,6 +3,7 @@ package cn.thesilentnights.scfmc.menu;
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
 import cn.thesilentnights.scfmc.networks.NetWork;
 import cn.thesilentnights.scfmc.networks.packets.PasswordVerify;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -39,6 +40,8 @@ public class CheckPassword extends Screen {
                 20,
                 Component.translatable("menu.password")
         );
+
+        addRenderableWidget(passwordBox);
     }
 
     @Override
@@ -52,5 +55,6 @@ public class CheckPassword extends Screen {
         if (lockable instanceof BlockEntity entity) {
             NetWork.CHANNEL.sendToServer(new PasswordVerify(passwordBox.getValue(), entity.getBlockPos()));
         }
+        Minecraft.getInstance().forceSetScreen(null);
     }
 }

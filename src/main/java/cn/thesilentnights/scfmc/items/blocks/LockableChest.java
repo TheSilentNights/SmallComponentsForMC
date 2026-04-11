@@ -4,6 +4,7 @@ import cn.thesilentnights.scfmc.items.blockentity.LockableChestEntity;
 import cn.thesilentnights.scfmc.networks.NetWork;
 import cn.thesilentnights.scfmc.networks.packets.OpenScreen;
 import cn.thesilentnights.scfmc.registry.BlockRegistry;
+import cn.thesilentnights.scfmc.utils.Logging;
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -32,6 +33,8 @@ public class LockableChest extends ChestBlock {
         LockableChestEntity lockableChestEntity = (LockableChestEntity) pLevel.getBlockEntity(pPos);
 
         if (lockableChestEntity != null) {
+            Logging.getLogger().debug("LockableChestEntity: {}", lockableChestEntity);
+            
             NetWork.CHANNEL.send(
                     PacketDistributor.PLAYER.with(()->pLevel.getServer().getPlayerList().getPlayer(pPlayer.getUUID())),
                     new OpenScreen(OpenScreen.ScreenType.LOCKABLE_CHEST_PASSWORD, lockableChestEntity.getBlockPos())

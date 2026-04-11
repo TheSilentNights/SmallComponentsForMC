@@ -2,6 +2,7 @@ package cn.thesilentnights.scfmc.networks.packets;
 
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
 import cn.thesilentnights.scfmc.menu.CheckPassword;
+import cn.thesilentnights.scfmc.utils.Logging;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -28,14 +29,14 @@ public class OpenScreen {
     }
 
     public static void handle(OpenScreen openScreen, Supplier<NetworkEvent.Context> ctx) {
+
         ctx.get().enqueueWork(() -> {
-            if (ctx.get().getSender() == null){
-                return;
-            }
+
+            Logging.getLogger().debug("OpenScreen: {}", openScreen);
 
             switch (openScreen.screenType) {
                 case LOCKABLE_CHEST_PASSWORD -> {
-                    if (ctx.get().getSender().level().getBlockEntity(openScreen.pos) instanceof Lockable lockable)
+                    if (Minecraft.getInstance().level.getBlockEntity(openScreen.pos) instanceof Lockable lockable)
                         Minecraft.getInstance().forceSetScreen(new CheckPassword(Component.literal("Lockable Chest"), lockable));
                 }
             }
