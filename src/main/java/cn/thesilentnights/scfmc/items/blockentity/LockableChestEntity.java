@@ -27,6 +27,7 @@ public class LockableChestEntity extends ChestBlockEntity implements Lockable {
         pTag.putString("password", password);
     }
 
+    @Override
     public void setPassword(@NotNull String pPassword){
         password = pPassword;
         setChanged();
@@ -35,7 +36,6 @@ public class LockableChestEntity extends ChestBlockEntity implements Lockable {
     @Override
     public void activate(Player pPlayer) {
         if (getLevel() != null && getBlockState().getBlock() instanceof LockableChest lockableChest) {
-            // Your code here with pPlayer
             lockableChest.activate(getBlockState(), getLevel(), getBlockPos(), pPlayer);
         }
     }

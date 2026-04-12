@@ -22,7 +22,6 @@ public class RefinedButton extends AbstractButton {
 
     @Override
     protected void updateWidgetNarration(NarrationElementOutput arg0) {
-        // TODO Auto-generated method stub
         this.defaultButtonNarrationText(arg0);
     }
 

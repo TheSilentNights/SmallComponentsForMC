@@ -11,7 +11,7 @@ public interface ICommands {
 
     static void registerAll(CommandDispatcher<CommandSourceStack> pDispatcher) {
         LiteralArgumentBuilder<CommandSourceStack> mainNode = Commands.literal("scfmc");
-        new Generator().register(pDispatcher, mainNode);
+        new SetPwd().register(pDispatcher, mainNode);
     }
 
 }

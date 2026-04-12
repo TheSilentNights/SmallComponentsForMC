@@ -8,4 +8,6 @@ public interface Lockable {
     boolean verify(String password);
 
     String getPassword();
+
+    void setPassword(String password);
 }
