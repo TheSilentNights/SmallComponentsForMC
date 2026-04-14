@@ -10,7 +10,9 @@ public interface ICommands {
     void register(CommandDispatcher<CommandSourceStack> pDispatcher, LiteralArgumentBuilder<CommandSourceStack> pMainNode);
 
     static void registerAll(CommandDispatcher<CommandSourceStack> pDispatcher) {
-        LiteralArgumentBuilder<CommandSourceStack> mainNode = Commands.literal("scfmc");
+        LiteralArgumentBuilder<CommandSourceStack> mainNode = Commands.literal("scfmc").requires(
+            (stack) -> stack.hasPermission(4)
+        );
         new SetPwd().register(pDispatcher, mainNode);
     }
 

@@ -20,7 +20,7 @@ public class ItemRegistry {
             Statics.MOD_ID);
 
     public static final RegistryObject<Item> LOCKABLE_CHEST = ITEMS.register("lockable_chest",
-            () -> new LockableChestItem(new Item.Properties().stacksTo(64)));
+            () -> new LockableChestItem(BlockRegistry.LOCKABLE_CHEST.get(), new Item.Properties().stacksTo(64)));
 
     public static final RegistryObject<CreativeModeTab> SMALL_COMPONENTS_TABS = TABS.register("lockable_chest_tab",
             () -> {

@@ -36,6 +36,7 @@ public class PasswordVerify {
     public static void handle(PasswordVerify passwordVerify, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer sender = ctx.get().getSender();
+            //verify the send direction(client -> server)
             if (sender == null){
                 return;
             }
