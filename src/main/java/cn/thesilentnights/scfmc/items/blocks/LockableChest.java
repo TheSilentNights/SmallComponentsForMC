@@ -8,17 +8,21 @@ import cn.thesilentnights.scfmc.networks.packets.OpenCheckPassword;
 import cn.thesilentnights.scfmc.registry.BlockRegistry;
 import cn.thesilentnights.scfmc.utils.Logging;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.PacketDistributor;
 
@@ -29,7 +33,8 @@ public class LockableChest extends ChestBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+            BlockHitResult pHit) {
         if (pLevel.isClientSide) {
             return InteractionResult.SUCCESS;
         }
@@ -37,17 +42,19 @@ public class LockableChest extends ChestBlock {
         LockableChestEntity lockableChestEntity = (LockableChestEntity) pLevel.getBlockEntity(pPos);
 
         if (lockableChestEntity != null) {
-            Logging.getLogger().debug("LockableChestEntity: {}", lockableChestEntity);
-            
+            Logging.getLogger().debug("LockableChestEntity: {}", lockableChestEntity.toString());
+
             NetWork.CHANNEL.send(
-                    PacketDistributor.PLAYER.with(()->pLevel.getServer().getPlayerList().getPlayer(pPlayer.getUUID())),
-                    new OpenCheckPassword(lockableChestEntity.getBlockPos(), lockableChestEntity.getPassword().length())
-            );
+                    PacketDistributor.PLAYER
+                            .with(() -> pLevel.getServer().getPlayerList().getPlayer(pPlayer.getUUID())),
+                    new OpenCheckPassword(lockableChestEntity.getBlockPos(),
+                            lockableChestEntity.getPassword().length()));
         }
         return InteractionResult.SUCCESS;
     }
 
     public void activate(BlockState state, Level level, BlockPos pos, Player player) {
+
         if (!level.isClientSide) {
             ChestBlock block = (ChestBlock) state.getBlock();
             MenuProvider menuProvider = block.getMenuProvider(state, level, pos);
