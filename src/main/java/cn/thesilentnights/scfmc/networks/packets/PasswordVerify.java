@@ -11,29 +11,29 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class PasswordVerify {
+public class PasswordVerify implements Packet {
     private final String password;
     private final BlockPos pos;
+
+    public PasswordVerify(FriendlyByteBuf buffer) {
+        this(buffer.readUtf(), buffer.readBlockPos());
+    }
 
     public PasswordVerify(String password, BlockPos pos) {
         this.password = password;
         this.pos = pos;
     }
 
-    //encode
+    @Override
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeUtf(password);
         buffer.writeBlockPos(pos);
     }
 
 
-    //decode
-    public static PasswordVerify decode(FriendlyByteBuf buffer) {
-        return new PasswordVerify(buffer.readUtf(), buffer.readBlockPos());
-    }
 
-    //handle
-    public static void handle(PasswordVerify passwordVerify, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer sender = ctx.get().getSender();
             //verify the send direction(client -> server)
@@ -41,10 +41,10 @@ public class PasswordVerify {
                 return;
             }
 
-            Optional<Lockable> lockable = passwordVerify.getLockable(sender.level());
+            Optional<Lockable> lockable = this.getLockable(sender.level());
 
             if (lockable.isPresent()){
-                if (lockable.get().verify(passwordVerify.password)){
+                if (lockable.get().verify(this.password)){
                     lockable.get().activate(sender);
                     MessageSender.sendMessage(sender, "Password is correct", MessageSender.MessageType.SUCCESS);
                 }else{
@@ -62,6 +62,7 @@ public class PasswordVerify {
             return Optional.empty();
         }
     }
+
 
 
 }

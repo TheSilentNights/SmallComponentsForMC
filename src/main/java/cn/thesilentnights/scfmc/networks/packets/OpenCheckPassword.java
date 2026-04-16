@@ -11,33 +11,36 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class OpenCheckPassword {
+public class OpenCheckPassword implements Packet {
     private final BlockPos pos;
     private final int pwdLength;
+
+    public OpenCheckPassword(FriendlyByteBuf buffer) {
+        this(buffer.readBlockPos(), buffer.readInt());
+    }
 
     public OpenCheckPassword( BlockPos pos, int pwdLength) {
         this.pos = pos;
         this.pwdLength = pwdLength;
     }
 
+    @Override
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeBlockPos(pos);
         buffer.writeInt(pwdLength);
     }
 
-    public static OpenCheckPassword decode(FriendlyByteBuf buffer) {
-        return new OpenCheckPassword(buffer.readBlockPos(), buffer.readInt());
-    }
 
-    public static void handle(OpenCheckPassword openScreen, Supplier<NetworkEvent.Context> ctx) {
+    @Override
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
 
         ctx.get().enqueueWork(() -> {
 
-            Logging.getLogger().debug("OpenScreen: {}", openScreen);
+            Logging.getLogger().debug("OpenScreen: {}", this.toString());
 
-            if (Minecraft.getInstance().level.getBlockEntity(openScreen.pos) instanceof Lockable lockable) {
+            if (Minecraft.getInstance().level.getBlockEntity(this.pos) instanceof Lockable lockable) {
                 Minecraft.getInstance()
-                        .forceSetScreen(new CheckPassword(Component.literal("Lockable Chest"), lockable, openScreen.pwdLength));
+                        .forceSetScreen(new CheckPassword(Component.literal("Lockable Chest"), lockable, this.pwdLength));
             }
         });
         ctx.get().setPacketHandled(true);

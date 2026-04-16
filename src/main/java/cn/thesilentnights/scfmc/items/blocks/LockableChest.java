@@ -9,6 +9,7 @@ import cn.thesilentnights.scfmc.registry.BlockRegistry;
 import cn.thesilentnights.scfmc.utils.Logging;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -41,12 +42,13 @@ public class LockableChest extends ChestBlock {
 
         LockableChestEntity lockableChestEntity = (LockableChestEntity) pLevel.getBlockEntity(pPos);
 
-        if (lockableChestEntity != null) {
+        if (lockableChestEntity != null && pPlayer instanceof ServerPlayer) {
+            ServerPlayer serverPlayer = (ServerPlayer) pPlayer;
             Logging.getLogger().debug("LockableChestEntity: {}", lockableChestEntity.toString());
 
             NetWork.CHANNEL.send(
                     PacketDistributor.PLAYER
-                            .with(() -> pLevel.getServer().getPlayerList().getPlayer(pPlayer.getUUID())),
+                            .with(() -> serverPlayer),
                     new OpenCheckPassword(lockableChestEntity.getBlockPos(),
                             lockableChestEntity.getPassword().length()));
         }
