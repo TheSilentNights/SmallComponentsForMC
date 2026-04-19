@@ -30,8 +30,8 @@ public class NetWork {
                                         msg.encode(buf);
                                 })
                                 .decoder(decoder)
-                                .consumerNetworkThread((msg, ctx) -> {
+                                .consumerMainThread((msg, ctx) -> {
                                         msg.handle(ctx);
-                                });
+                                }).add();
         }
 }

@@ -1,0 +1,14 @@
+{
+  "chest_place": {
+    "sounds": [{ "name": "scfmc:chest_place", "type": "file" }]
+  },
+  "chest_open": {
+    "sounds": [{ "name": "scfmc:chest_open", "type": "file" }]
+  },
+  "chest_close": {
+    "sounds": [{ "name": "scfmc:chest_close", "type": "file" }]
+  },
+  "lockpick": {
+    "sounds": [{ "name": "scfmc:lockpick", "type": "file" }]
+  }
+}

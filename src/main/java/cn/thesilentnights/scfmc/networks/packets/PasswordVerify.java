@@ -1,6 +1,7 @@
 package cn.thesilentnights.scfmc.networks.packets;
 
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
+import cn.thesilentnights.scfmc.registry.SoundRegistry;
 import cn.thesilentnights.scfmc.utils.MessageSender;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -30,24 +31,29 @@ public class PasswordVerify implements Packet {
         buffer.writeBlockPos(pos);
     }
 
-
-
     @Override
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer sender = ctx.get().getSender();
-            //verify the send direction(client -> server)
-            if (sender == null){
+            // verify the send direction(client -> server)
+            if (sender == null) {
                 return;
             }
 
             Optional<Lockable> lockable = this.getLockable(sender.level());
 
-            if (lockable.isPresent()){
-                if (lockable.get().verify(this.password)){
+            if (lockable.isPresent()) {
+                if (lockable.get().verify(this.password)) {
                     lockable.get().activate(sender);
                     MessageSender.sendMessage(sender, "Password is correct", MessageSender.MessageType.SUCCESS);
-                }else{
+
+                    sender.level().playSound(
+                            null,
+                            this.pos,
+                            SoundRegistry.LOCKPICK.get(),
+                            net.minecraft.sounds.SoundSource.BLOCKS,
+                            1.0f, 1.0f);
+                } else {
                     MessageSender.sendMessage(sender, "Password is incorrect", MessageSender.MessageType.ERROR);
                     return;
                 }
@@ -62,7 +68,5 @@ public class PasswordVerify implements Packet {
             return Optional.empty();
         }
     }
-
-
 
 }

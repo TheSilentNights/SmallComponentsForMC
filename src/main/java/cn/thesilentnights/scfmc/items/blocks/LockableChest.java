@@ -1,22 +1,31 @@
 package cn.thesilentnights.scfmc.items.blocks;
 
+import javax.annotation.Nullable;
+
 import org.checkerframework.checker.units.qual.s;
 
 import cn.thesilentnights.scfmc.items.blockentity.LockableChestEntity;
 import cn.thesilentnights.scfmc.networks.NetWork;
 import cn.thesilentnights.scfmc.networks.packets.OpenCheckPassword;
 import cn.thesilentnights.scfmc.registry.BlockRegistry;
+import cn.thesilentnights.scfmc.registry.SoundRegistry;
 import cn.thesilentnights.scfmc.utils.Logging;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.block.RenderShape;
@@ -56,6 +65,13 @@ public class LockableChest extends ChestBlock {
     }
 
     public void activate(BlockState state, Level level, BlockPos pos, Player player) {
+        level.playSound(
+                null,
+                pos,
+                SoundRegistry.CHEST_OPEN.get(),
+                SoundSource.BLOCKS,
+                0.5f,
+                level.random.nextFloat() * 0.1f + 0.9f);
 
         if (!level.isClientSide) {
             ChestBlock block = (ChestBlock) state.getBlock();
@@ -65,6 +81,41 @@ public class LockableChest extends ChestBlock {
                 player.openMenu(menuProvider);
                 player.awardStat(Stats.CUSTOM.get(Stats.OPEN_CHEST));
             }
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos,
+            Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
+        super.neighborChanged(pState, pLevel, pPos, pBlock, pFromPos, pIsMoving);
+
+        // Sound must be emitted from the server so all nearby clients hear it.
+        if (!pLevel.isClientSide) {
+            boolean hasSignal = pLevel.hasNeighborSignal(pPos);
+            pLevel.playSound(
+                    null,
+                    pPos,
+                    hasSignal ? SoundRegistry.CHEST_OPEN.get() : SoundRegistry.CHEST_CLOSE.get(),
+                    SoundSource.BLOCKS,
+                    0.5f,
+                    pLevel.random.nextFloat() * 0.1f + 0.9f);
+        }
+    }
+
+    @Override
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState,
+            @Nullable LivingEntity pPlacer, ItemStack pStack) {
+        super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
+        // Play a lock-click sound for everyone nearby when the chest is placed.
+        // Run only on the server; the sound packet is broadcast to all nearby clients.
+        if (!pLevel.isClientSide) {
+            pLevel.playSound(
+                    null, // null → play for ALL nearby players
+                    pPos,
+                    SoundRegistry.CHEST_PLACE.get(),
+                    SoundSource.BLOCKS,
+                    0.6f, 1.2f);
         }
     }
 
