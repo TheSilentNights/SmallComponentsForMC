@@ -4,7 +4,8 @@ import javax.annotation.Nullable;
 
 import org.checkerframework.checker.units.qual.s;
 
-import cn.thesilentnights.scfmc.items.blockentity.LockableChestEntity;
+import cn.thesilentnights.scfmc.functions.apis.Lockable;
+import cn.thesilentnights.scfmc.items.blockentity.AbstractLockableChestEntity;
 import cn.thesilentnights.scfmc.networks.NetWork;
 import cn.thesilentnights.scfmc.networks.packets.OpenCheckPassword;
 import cn.thesilentnights.scfmc.registry.BlockRegistry;
@@ -36,11 +37,13 @@ import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.PacketDistributor;
 
-public class LockableChest extends ChestBlock {
+public abstract class AbstractLockableChest extends ChestBlock {
 
-    public LockableChest(Properties pProperties) {
+    public AbstractLockableChest(Properties pProperties) {
         super(pProperties, BlockRegistry.LOCKABLE_CHEST_ENTITY);
     }
+
+    protected abstract AbstractLockableChestEntity gLockableChestEntity(BlockState pState, Level pLevel, BlockPos pPos);
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
@@ -49,17 +52,16 @@ public class LockableChest extends ChestBlock {
             return InteractionResult.SUCCESS;
         }
 
-        LockableChestEntity lockableChestEntity = (LockableChestEntity) pLevel.getBlockEntity(pPos);
+        AbstractLockableChestEntity lockable = gLockableChestEntity(pState, pLevel, pPos);
 
-        if (lockableChestEntity != null && pPlayer instanceof ServerPlayer) {
+        if (lockable != null && pPlayer instanceof ServerPlayer) {
             ServerPlayer serverPlayer = (ServerPlayer) pPlayer;
-            Logging.getLogger().debug("LockableChestEntity: {}", lockableChestEntity.toString());
+            Logging.getLogger().debug("Lockable: {}", lockable.toString());
 
             NetWork.CHANNEL.send(
                     PacketDistributor.PLAYER
                             .with(() -> serverPlayer),
-                    new OpenCheckPassword(lockableChestEntity.getBlockPos(),
-                            lockableChestEntity.getPassword().length()));
+                    new OpenCheckPassword(lockable.getBlockPos(),lockable.getPassword().length()));
         }
         return InteractionResult.SUCCESS;
     }
@@ -119,17 +121,11 @@ public class LockableChest extends ChestBlock {
         }
     }
 
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new LockableChestEntity(pPos, pState);
-    }
 
     @Override
     public RenderShape getRenderShape(BlockState pState) {
         return RenderShape.MODEL;
     }
 
-    public static Properties genProperties() {
-        return BlockBehaviour.Properties.of().noParticlesOnBreak().strength(-1.0F, 12000F).noParticlesOnBreak();
-    }
+    
 }

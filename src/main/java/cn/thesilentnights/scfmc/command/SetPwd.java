@@ -6,7 +6,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
-import cn.thesilentnights.scfmc.items.blockentity.LockableChestEntity;
+import cn.thesilentnights.scfmc.items.blockentity.AbstractLockableChestEntity;
 import cn.thesilentnights.scfmc.utils.MessageSender;
 import cn.thesilentnights.scfmc.utils.RandomGenerator;
 import net.minecraft.commands.CommandSourceStack;
