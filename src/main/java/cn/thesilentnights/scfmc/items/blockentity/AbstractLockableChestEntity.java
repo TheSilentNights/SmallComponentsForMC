@@ -49,6 +49,8 @@ public class AbstractLockableChestEntity extends ChestBlockEntity implements Loc
         return password;
     }
 
+    
+
     @Override
     public void load(@NotNull CompoundTag pTag) {
         super.load(pTag);
@@ -65,18 +67,10 @@ public class AbstractLockableChestEntity extends ChestBlockEntity implements Loc
         return super.getContainerSize();
     }
 
-    // @Override
-    // public void stopOpen(Player player) {
-    //     if (level != null && !level.isClientSide) {
-    //         level.playSound(
-    //             null,
-    //             getBlockPos(),
-    //             SoundRegistry.CHEST_CLOSE.get(),
-    //             SoundSource.BLOCKS,
-    //             1.0f, 1.0f
-    //         );
-    //     }
-    // }
 
+    @Override
+    public BlockPos getBlockPos() {
+        return super.getBlockPos();
+    }
 
 }

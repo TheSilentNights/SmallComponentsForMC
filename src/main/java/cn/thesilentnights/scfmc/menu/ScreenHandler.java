@@ -8,9 +8,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ScreenHandler {
-
     
     public static void openCheckPasswordScreen(Lockable lockable, int pwdLength) {
-        Minecraft.getInstance().forceSetScreen(new CheckPassword(Component.literal("Lockable Chest"), lockable, pwdLength));
+        Minecraft.getInstance().setScreen(new CheckPassword(Component.literal("Lockable Chest"), lockable, pwdLength));
     }
 }

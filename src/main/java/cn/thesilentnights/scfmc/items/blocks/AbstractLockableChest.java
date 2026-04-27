@@ -24,16 +24,10 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
-import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.PacketDistributor;
 
@@ -43,7 +37,6 @@ public abstract class AbstractLockableChest extends ChestBlock {
         super(pProperties, BlockRegistry.LOCKABLE_CHEST_ENTITY);
     }
 
-    protected abstract AbstractLockableChestEntity gLockableChestEntity(BlockState pState, Level pLevel, BlockPos pPos);
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
@@ -52,7 +45,7 @@ public abstract class AbstractLockableChest extends ChestBlock {
             return InteractionResult.SUCCESS;
         }
 
-        AbstractLockableChestEntity lockable = gLockableChestEntity(pState, pLevel, pPos);
+        AbstractLockableChestEntity lockable = (AbstractLockableChestEntity) pLevel.getBlockEntity(pPos);
 
         if (lockable != null && pPlayer instanceof ServerPlayer) {
             ServerPlayer serverPlayer = (ServerPlayer) pPlayer;
@@ -83,25 +76,6 @@ public abstract class AbstractLockableChest extends ChestBlock {
                 player.openMenu(menuProvider);
                 player.awardStat(Stats.CUSTOM.get(Stats.OPEN_CHEST));
             }
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos,
-            Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
-        super.neighborChanged(pState, pLevel, pPos, pBlock, pFromPos, pIsMoving);
-
-        // Sound must be emitted from the server so all nearby clients hear it.
-        if (!pLevel.isClientSide) {
-            boolean hasSignal = pLevel.hasNeighborSignal(pPos);
-            pLevel.playSound(
-                    null,
-                    pPos,
-                    hasSignal ? SoundRegistry.CHEST_OPEN.get() : SoundRegistry.CHEST_CLOSE.get(),
-                    SoundSource.BLOCKS,
-                    0.5f,
-                    pLevel.random.nextFloat() * 0.1f + 0.9f);
         }
     }
 

@@ -18,7 +18,7 @@ public class OpenCheckPassword implements Packet {
         this(buffer.readBlockPos(), buffer.readInt());
     }
 
-    public OpenCheckPassword( BlockPos pos, int pwdLength) {
+    public OpenCheckPassword(BlockPos pos, int pwdLength) {
         this.pos = pos;
         this.pwdLength = pwdLength;
     }
@@ -32,12 +32,12 @@ public class OpenCheckPassword implements Packet {
 
     @Override
     public void handle(Supplier<NetworkEvent.Context> ctx) {
-
         ctx.get().enqueueWork(() -> {
 
             Logging.getLogger().debug("OpenScreen: {}", this.toString());
 
             if (Minecraft.getInstance().level.getBlockEntity(this.pos) instanceof Lockable lockable) {
+                Logging.getLogger().debug("openCheckPasswordScreen: {}", lockable);
                 ScreenHandler.openCheckPasswordScreen(lockable, this.pwdLength);
             }
         });
