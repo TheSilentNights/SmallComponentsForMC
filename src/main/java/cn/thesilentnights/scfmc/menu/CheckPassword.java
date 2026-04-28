@@ -8,7 +8,7 @@ import org.stringtemplate.v4.compiler.CodeGenerator.primary_return;
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
 import cn.thesilentnights.scfmc.menu.widgets.RefinedButton;
 import cn.thesilentnights.scfmc.networks.NetWork;
-import cn.thesilentnights.scfmc.networks.packets.PasswordVerify;
+import cn.thesilentnights.scfmc.networks.packets.server.PasswordVerify;
 import cn.thesilentnights.scfmc.utils.Logging;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

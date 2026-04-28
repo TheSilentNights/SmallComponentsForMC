@@ -1,7 +1,8 @@
-package cn.thesilentnights.scfmc.networks.packets;
+package cn.thesilentnights.scfmc.networks.packets.client;
 
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
 import cn.thesilentnights.scfmc.menu.ScreenHandler;
+import cn.thesilentnights.scfmc.networks.packets.Packet;
 import cn.thesilentnights.scfmc.utils.Logging;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;

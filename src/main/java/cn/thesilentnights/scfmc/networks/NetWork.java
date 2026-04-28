@@ -2,9 +2,9 @@ package cn.thesilentnights.scfmc.networks;
 
 import java.util.function.Function;
 
-import cn.thesilentnights.scfmc.networks.packets.OpenCheckPassword;
 import cn.thesilentnights.scfmc.networks.packets.Packet;
-import cn.thesilentnights.scfmc.networks.packets.PasswordVerify;
+import cn.thesilentnights.scfmc.networks.packets.client.OpenCheckPassword;
+import cn.thesilentnights.scfmc.networks.packets.server.PasswordVerify;
 import cn.thesilentnights.scfmc.repo.Statics;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

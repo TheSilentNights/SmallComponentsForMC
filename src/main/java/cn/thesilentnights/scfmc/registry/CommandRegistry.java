@@ -5,6 +5,9 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+/**
+ * Command registry
+ */
 public class CommandRegistry {
 
     public CommandRegistry(IEventBus eventBus) {

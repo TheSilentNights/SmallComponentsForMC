@@ -7,7 +7,7 @@ import org.checkerframework.checker.units.qual.s;
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
 import cn.thesilentnights.scfmc.items.blockentity.AbstractLockableChestEntity;
 import cn.thesilentnights.scfmc.networks.NetWork;
-import cn.thesilentnights.scfmc.networks.packets.OpenCheckPassword;
+import cn.thesilentnights.scfmc.networks.packets.client.OpenCheckPassword;
 import cn.thesilentnights.scfmc.registry.BlockRegistry;
 import cn.thesilentnights.scfmc.registry.SoundRegistry;
 import cn.thesilentnights.scfmc.utils.Logging;

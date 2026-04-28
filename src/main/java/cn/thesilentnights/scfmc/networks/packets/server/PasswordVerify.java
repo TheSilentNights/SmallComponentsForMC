@@ -1,6 +1,7 @@
-package cn.thesilentnights.scfmc.networks.packets;
+package cn.thesilentnights.scfmc.networks.packets.server;
 
 import cn.thesilentnights.scfmc.functions.apis.Lockable;
+import cn.thesilentnights.scfmc.networks.packets.Packet;
 import cn.thesilentnights.scfmc.registry.SoundRegistry;
 import cn.thesilentnights.scfmc.utils.MessageSender;
 import net.minecraft.core.BlockPos;
