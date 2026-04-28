@@ -27,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.PacketDistributor;
@@ -78,6 +79,9 @@ public abstract class AbstractLockableChest extends ChestBlock {
             }
         }
     }
+
+    @Override
+    public abstract BlockEntity newBlockEntity(BlockPos pPos, BlockState state);
 
     @Override
     public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState,

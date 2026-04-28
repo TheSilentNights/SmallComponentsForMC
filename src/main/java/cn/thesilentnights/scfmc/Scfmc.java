@@ -16,7 +16,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class Scfmc {
     public Scfmc(FMLJavaModLoadingContext modLoadingContext) {
         SoundRegistry.init(modLoadingContext.getModEventBus());
-        BlockRegistry.init(modLoadingContext.getModEventBus());
+        BlockRegistry.registerBlocks(modLoadingContext.getModEventBus());
         ItemRegistry.registerItems(modLoadingContext.getModEventBus());
         new CommandRegistry(MinecraftForge.EVENT_BUS);
         NetWork.init();

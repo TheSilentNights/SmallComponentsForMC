@@ -1,19 +1,19 @@
 package cn.thesilentnights.scfmc.items.blocks;
 
-import cn.thesilentnights.scfmc.items.blockentity.CommonLockableChestEntity;
+import cn.thesilentnights.scfmc.items.blockentity.OrdinaryLockableChestEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CommonLockableChest extends AbstractLockableChest{
-    public CommonLockableChest(BlockBehaviour.Properties properties) {
+public class OrdinaryLockableChest extends AbstractLockableChest{
+    public OrdinaryLockableChest(BlockBehaviour.Properties properties) {
         super(properties);
     }
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState state) {
-        return new CommonLockableChestEntity(pPos, state);
+        return new OrdinaryLockableChestEntity(pPos, state);
     }
 
     public static Properties genProperties() {

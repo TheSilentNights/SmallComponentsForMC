@@ -1,7 +1,7 @@
 package cn.thesilentnights.scfmc.registry;
 
-import cn.thesilentnights.scfmc.items.blockentity.CommonLockableChestEntity;
-import cn.thesilentnights.scfmc.items.blocks.CommonLockableChest;
+import cn.thesilentnights.scfmc.items.blockentity.OrdinaryLockableChestEntity;
+import cn.thesilentnights.scfmc.items.blocks.OrdinaryLockableChest;
 import cn.thesilentnights.scfmc.repo.Statics;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -15,17 +15,17 @@ public class BlockRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, Statics.MOD_ID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Statics.MOD_ID);
 
-    public static final RegistryObject<Block> LOCKABLE_CHEST = BLOCKS.register("lockable_chest", () -> new CommonLockableChest(CommonLockableChest.genProperties()));
+    public static final RegistryObject<Block> LOCKABLE_CHEST = BLOCKS.register("lockable_chest", () -> new OrdinaryLockableChest(OrdinaryLockableChest.genProperties()));
     
     public static final RegistryObject<BlockEntityType<? extends ChestBlockEntity>> LOCKABLE_CHEST_ENTITY = BLOCK_ENTITIES.register(
             "lockable_chest_entity", () -> BlockEntityType.Builder.of(
-                    CommonLockableChestEntity::new,
+                    OrdinaryLockableChestEntity::new,
                     LOCKABLE_CHEST.get()
             ).build(null)
     );
 
 
-    public static void init(IEventBus eventBus) {
+    public static void registerBlocks(IEventBus eventBus) {
         BLOCKS.register(eventBus); // Register BLOCKS with the event bus
         BLOCK_ENTITIES.register(eventBus); // Register BLOCK_ENTITIES with the event bus
     }

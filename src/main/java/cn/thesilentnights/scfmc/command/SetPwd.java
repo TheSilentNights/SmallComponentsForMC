@@ -32,6 +32,8 @@ public class SetPwd implements ICommands {
                                 if (serverLevel.getBlockEntity(pos) instanceof Lockable lockable) {
                                     lockable.setPassword(new RandomGenerator().numeric(passwordLength));
                                     MessageSender.sendMessage(context, "Password set to " + lockable.getPassword(), MessageSender.MessageType.SUCCESS);
+                                }else{
+                                    MessageSender.sendMessage(context, "This block is not lockable!", MessageSender.MessageType.ERROR);
                                 }
 
                                 return 1;
